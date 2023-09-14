@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-tv',
-  templateUrl: './tv.component.html',
-  styleUrls: ['./tv.component.css'],
+  selector: 'app-tvseries-details',
+  templateUrl: './tvseries-details.component.html',
+  styleUrls: ['./tvseries-details.component.css']
 })
-export class TvComponent implements OnInit {
+export class TvseriesDetailsComponent implements OnInit {
   imagePath: string = 'https://image.tmdb.org/t/p/w500';
   allTvs: any[] = [
     {
@@ -326,46 +327,27 @@ export class TvComponent implements OnInit {
       vote_count: 50,
     },
   ];
+  selectedTV = {
+    backdrop_path: '/5e1MxLWTJh6n4qtYz0vlevOK6qW.jpg',
+    first_air_date: '2023-07-03',
+    genre_ids: [18, 10766],
+    id: 229932,
+    name: 'Pyaar Ka Pehla Adhyaya  - Shiv Shakti',
+    origin_country: ['IN'],
+    original_language: 'hi',
+    original_name: 'Pyaar Ka Pehla Adhyaya  - Shiv Shakti',
+    overview:
+      'Shiv has a rewarding career as a doctor, but his personal life is in tatters. Shakti, an orphan, is a nurturer by nature. Will Shakti heal a broken Shiv?',
+    popularity: 1882.483,
+    poster_path: '/jHK9bCDefHq43cHvMVUM7SLumYF.jpg',
+    vote_average: 8.1,
+    vote_count: 50,
+  };
+  constructor(private route: ActivatedRoute) { }
 
-  allData: any[] = this.allTvs;
-
-  private searchval: string = '';
-  showtvDetails: boolean = true;
-
-  constructor() {}
-
-  set searchValue(value: string) {
-    this.searchval = value;
-    this.searchallseries(value);
+  ngOnInit(): void {
+    let id = parseInt(this.route.snapshot.paramMap.get('id')!);
+    console.log(id);
+    this.selectedTV = this.allTvs.find((tv) => tv.id == id);
   }
-  ngOnInit(): void {}
-
-  toggleDetails(TVid: number) {
-    console.log(TVid);
-
-    for (const item of this.allTvs) {
-      if (item.id == TVid) {
-        item.toggleDiscription = !item.toggleDiscription;
-      }
-    }
-  }
-
-  searchallseries(TVtitle: string) {{
-    if (TVtitle == '') {
-      this.allTvs = this.allData;
-    } else {
-      this.allTvs = this.allTvs.filter((series) => {
-        if (
-          series.original_name
-            .toLocaleLowerCase()
-            .includes(TVtitle.toLocaleLowerCase())
-        ) {
-          return series;
-        }
-      });
-    }
-  }
-  }
-
-
 }
