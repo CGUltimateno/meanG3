@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MoviesService} from "../movies.service";
+
 
 @Component({
   selector: 'app-movie',
@@ -349,24 +351,35 @@ export class MovieComponent implements OnInit {
       vote_count: 4456,
     },
   ];
+  lang: string = 'en-US';
+  totalMovies: number = 0;
+  moviesPerPage: number = 20;
+  currentPage: number = 1;
 
   allData: any[] = this.allMovies;
 
   private searchval: string = '';
   showMoviesDetails: boolean = true;
 
-  constructor() {}
+  constructor(private movieserve: MoviesService) {}
 
   set searchValue(value: string) {
     this.searchval = value;
     this.searchallMovies(value);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.movieserve.getAllMovies(this.currentPage, this.lang).subscribe({
+      next: (response) => {
+        this.allMovies = response.results;
+        this.totalMovies = response.total_results;
+      }
+    });
+  }
 
   toggleDetails(movieId: number) {
     console.log(movieId);
-    
+
     for (const item of this.allMovies) {
       if (item.id == movieId) {
         item.toggleDiscription = !item.toggleDiscription;
@@ -390,4 +403,12 @@ export class MovieComponent implements OnInit {
     }
   }
 
+  changeLang() {
+    this.lang= this.lang =="en_US"?"ar-SA":"en-US";
+    this.movieserve.getAllMovies(this.currentPage, this.lang).subscribe({
+      next: (response) => {
+        this.allMovies = response.results;
+      },
+    });
+  }
 }
