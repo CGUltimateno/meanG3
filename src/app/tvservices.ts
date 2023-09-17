@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class TvServices {
-  api: string = ''
+  api: string = 'e3e3db12d95cc1b0e6fb9fd51a7cca77'
   // https://api.themoviedb.org/3/movie/top_rated
   allMovies: any[] = [];
   constructor(private http: HttpClient) {}
