@@ -9,7 +9,7 @@ server.use(express.json());
 
 // Connect to database
 
-const connection = "mongodb+srv://admin2:12345@cluster0.m0offi5.mongodb.net/ecommerce?retryWrites=true&w=majority\n"
+const connection = ""
 mongoose.connect(connection)
   .then(() => {
     console.log('Connected');
